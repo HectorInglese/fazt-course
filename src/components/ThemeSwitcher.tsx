@@ -12,7 +12,7 @@ const ThemeSwitcher = () => {
             color={theme === 'light' ? 'default' : 'secondary'}
             variant="shadow"
         >
-            <p>{theme === 'light' ? 'Dark' : 'Light'}</p>
+            <p className="font-semibold">{theme === 'light' ? 'Dark' : 'Light'}</p>
         </Button>
     );
 };

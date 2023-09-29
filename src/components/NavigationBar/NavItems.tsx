@@ -1,13 +1,13 @@
 import React from 'react'
 import { NavbarItem } from "@nextui-org/react";
-import navbarItems from '@/const/navbarItems';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-const NavItems = () => {
+import NavItem from '@/interfaces/navItems';
+const NavItems = ({ items }: { items: NavItem[] }) => {
     const pathname = usePathname();
     return (
         <>
-            {navbarItems.map((item) => {
+            {items.map((item) => {
                 return (
                     <NavbarItem key={item.id} isActive={pathname === item.path}>
                         <Link href={item.path}>{item.name}</Link>
