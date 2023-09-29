@@ -8,6 +8,11 @@ const navbarItems = [
         name: 'About',
         path: '/about',
         id : 2
+    },
+    {
+        name: 'New',
+        path: '/new',
+        id : 2
     }
 ];
 export default navbarItems;

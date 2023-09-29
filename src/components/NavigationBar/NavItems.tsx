@@ -3,7 +3,7 @@ import { NavbarItem } from "@nextui-org/react";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import NavItem from '@/interfaces/navItems';
-const NavItems = ({ items }: { items: NavItem[] }) => {
+const NavItems = ({ items }: { items: [NavItem] }) => {
     const pathname = usePathname();
     return (
         <>
