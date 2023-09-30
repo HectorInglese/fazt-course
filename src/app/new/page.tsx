@@ -1,10 +1,9 @@
+import TaskForm from '@/components/TaskForm';
 import React from 'react'
 
 const NewPage = () => {
     return (
-        <div>
-            Formulario de tareas
-        </div>
+            <TaskForm />
     );
 };
 export default NewPage;

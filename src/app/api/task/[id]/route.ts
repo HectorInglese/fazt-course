@@ -15,8 +15,15 @@ const GET = async (req: Request, { params }: { params: { id: string } }) => {
     };
 };
 const PUT = async (req: Request, { params }: { params: { id: string } }) => {
-    const { id } = params;
-    return NextResponse.json({ message: `Actualizando tarea ${params.id}` });
+    const data = await req.json();
+
+    const updatedTask = await prisma.task.update({
+        where: {
+            id: Number(params.id),
+        },
+        data: data
+    });
+    return NextResponse.json({ updatedTask });
 };
 const DELETE = async (req: Request, { params }: { params: { id: string } }) => {
     try {
@@ -28,7 +35,7 @@ const DELETE = async (req: Request, { params }: { params: { id: string } }) => {
         });
         return NextResponse.json(removedTask);
     } catch (e: any) {
-        
+
         return NextResponse.json({ message: e.message });
     };
 };

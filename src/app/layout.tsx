@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" >
-      <body className={`${inter.className} scrollbar-hide`}>
+      <body className={`${inter.className}`}>
         <Providers>
           {children}
         </Providers>

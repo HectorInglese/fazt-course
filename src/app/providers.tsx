@@ -7,7 +7,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         <NextUIProvider>
             <ThemeProvider attribute="class" defaultTheme="dark">
                 <NavBar />
-                <main className={`container mx-auto h-[calc(100vh-7rem)] pt-20 px-5`}>
+                <main className={`container h-[calc(100vh-7rem)] pt-20 px-2 mx-auto`}>
                     {children}
                 </main>
             </ThemeProvider>
