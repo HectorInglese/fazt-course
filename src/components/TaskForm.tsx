@@ -1,14 +1,46 @@
 'use client';
+import handle from "@/const/validateHomeRoute";
+import { indidividualTask } from "@/interfaces/Tasks";
 import { Card, CardHeader, CardBody, CardFooter, Divider, Image, Input, Textarea, Button, ButtonGroup } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-const TaskForm = () => {
-    const [taskName, setTaskName] = useState('');
-    const [description, setDescription] = useState('');
+const TaskForm = (task: indidividualTask = { id: 0, title: "", description: "" }) => {
+    const [taskForm, setTaskForm] = useState({
+        title: "",
+        description: "",
+    });
+    const router = useRouter();
 
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    !!task.id && setTaskForm({
+        title: task.title,
+        description: task.description
+    });
+
+    const clearForm = () => {
+        setTaskForm({
+            title: "",
+            description: "",
+        });
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setTaskForm({
+            ...taskForm,
+            [e.target.name]: e.target.value,
+        });
+    }
+
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Use the taskName and description variables to upload the data to the backend
-        console.log(taskName, description);
+        const res = await fetch("/api/task", {
+            method: "POST",
+            body: JSON.stringify(taskForm),
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+        clearForm();
+        router.push("/");
     };
 
     return (
@@ -34,21 +66,34 @@ const TaskForm = () => {
                     <Input
                         variant="bordered"
                         label="Task name"
-                        name="taskName"
-                        value={taskName}
-                        onChange={(e) => setTaskName(e.target.value)}
+                        labelPlacement="outside"
+                        name="title"
+                        value={taskForm.title}
+                        onChange={handleChange}
                         isClearable
+                        onClear={() => clearForm()}
+                        placeholder="Enter the task name"
+                        size="lg"
                     />
                     <Textarea
                         variant="bordered"
-                        minRows={2}
+                        minRows={4}
                         label="Description"
+                        labelPlacement="outside"
+                        placeholder="Enter your description"
                         name="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        value={taskForm.description}
+                        onChange={handleChange}
                     />
-                    <Button type="submit" size="lg" variant="flat">
-                        Save
+                    <Button
+                        color={(taskForm.title.length > 0 && taskForm.description.length > 0) ? "success" : "default"}
+                        variant={(taskForm.title.length > 0 && taskForm.description.length > 0) ? "solid" : "ghost"}
+                        isDisabled={(taskForm.title.length > 0 && taskForm.description.length > 0) ? false : true}
+                        type="submit"
+                        size="lg"
+                        radius="sm"
+                    >
+                        {(taskForm.title.length > 0 && taskForm.description.length > 0) ? "Save" : ""}
                     </Button>
                 </form>
             </CardBody>

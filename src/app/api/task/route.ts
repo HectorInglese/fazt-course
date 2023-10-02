@@ -2,8 +2,6 @@ import { prisma } from "@/libs/prisma";
 import { NextResponse } from "next/server"
 const GET = async () => {
     const tasks = await prisma.task.findMany();
-    console.log(tasks);
-
     if ((tasks === undefined) || (tasks.length === 0)) {
         return NextResponse.json({ message: "No hay tareas" });
     } else if (tasks === null) {
@@ -21,6 +19,16 @@ const POST = async (request: Request) => {
     return NextResponse.json(newTask);
 };
 
+const DEL = async () => {
+    const deleteUsers = await prisma.task.deleteMany({
+        where: {
+            id: {
+                not: 0
+            }
+        }
+    })
+    console.log(deleteUsers);
+    return NextResponse.json(deleteUsers);
+}
 
-
-export { GET, POST };
+export { GET, POST, DEL };
