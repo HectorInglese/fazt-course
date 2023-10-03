@@ -1,6 +1,6 @@
-interface NavItem {
+export type NavItem = {
     name: string;
     path: string;
     id: number;
 };
-export default NavItem;
+export type NavItems = NavItem[];

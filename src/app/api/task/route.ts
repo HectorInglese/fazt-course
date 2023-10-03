@@ -19,7 +19,7 @@ const POST = async (request: Request) => {
     return NextResponse.json(newTask);
 };
 
-const DEL = async () => {
+const DELETE = async () => {
     const deleteUsers = await prisma.task.deleteMany({
         where: {
             id: {
@@ -30,4 +30,4 @@ const DEL = async () => {
     return NextResponse.json(deleteUsers);
 }
 
-export { GET, POST, DEL };
+export { GET, POST, DELETE };

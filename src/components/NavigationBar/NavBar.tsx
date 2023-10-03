@@ -7,7 +7,6 @@ import navbarItems from "@/const/navbarItems";
 const NavBar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-
     return (
         <Navbar
             isBordered
