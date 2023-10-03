@@ -1,5 +1,4 @@
 import { prisma } from "@/libs/prisma";
-import Error from "next/error";
 import { NextResponse } from "next/server";
 const GET = async (req: Request, { params }: { params: { id: string } }) => {
     const { id } = params;
@@ -23,7 +22,7 @@ const PUT = async (req: Request, { params }: { params: { id: string } }) => {
         },
         data: data
     });
-    return NextResponse.json({ updatedTask });
+    return NextResponse.json(updatedTask);
 };
 const DELETE = async (req: Request, { params }: { params: { id: string } }) => {
     try {

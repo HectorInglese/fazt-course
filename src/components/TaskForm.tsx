@@ -1,27 +1,23 @@
 'use client';
-import handle from "@/const/validateHomeRoute";
 import { indidividualTask } from "@/interfaces/Tasks";
-import { Card, CardHeader, CardBody, CardFooter, Divider, Image, Input, Textarea, Button, ButtonGroup } from "@nextui-org/react";
+import { Card, CardHeader, CardBody, Divider, Image, Input, Textarea, Button } from "@nextui-org/react";
+import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-const TaskForm = (task: indidividualTask = { id: 0, title: "", description: "" }) => {
+import { useState, useEffect } from "react";
+const TaskForm = ({ task }: { task: indidividualTask }) => {
     const [taskForm, setTaskForm] = useState({
         title: "",
         description: "",
     });
     const router = useRouter();
-
-    !!task.id && setTaskForm({
-        title: task.title,
-        description: task.description
-    });
-
-    const clearForm = () => {
-        setTaskForm({
-            title: "",
-            description: "",
+    useEffect(() => {
+        !!task?.id && setTaskForm({
+            title: task.title ?? "",
+            description: task.description ?? ""
         });
-    };
+    }, [task]);
+
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setTaskForm({
@@ -32,14 +28,24 @@ const TaskForm = (task: indidividualTask = { id: 0, title: "", description: "" }
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const res = await fetch("/api/task", {
-            method: "POST",
-            body: JSON.stringify(taskForm),
-            headers: {
-                "Content-Type": "application/json",
-            }
-        });
-        clearForm();
+        if (!!task?.id) {
+            const res = await fetch(`/api/task/${task?.id}`, {
+                method: "PUT",
+                body: JSON.stringify(taskForm),
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+        } else {
+            const res = await fetch("/api/task", {
+                method: "POST",
+                body: JSON.stringify(taskForm),
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+        }
+        router.refresh();
         router.push("/");
     };
 
@@ -71,7 +77,7 @@ const TaskForm = (task: indidividualTask = { id: 0, title: "", description: "" }
                         value={taskForm.title}
                         onChange={handleChange}
                         isClearable
-                        onClear={() => clearForm()}
+                        onClear={() => setTaskForm((prev) => ({ ...prev, title: "" }))}
                         placeholder="Enter the task name"
                         size="lg"
                     />

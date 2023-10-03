@@ -27,7 +27,6 @@ const DEL = async () => {
             }
         }
     })
-    console.log(deleteUsers);
     return NextResponse.json(deleteUsers);
 }
 

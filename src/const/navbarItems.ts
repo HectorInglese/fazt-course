@@ -5,11 +5,6 @@ const navbarItems = [
         id : 1
     },
     {
-        name: 'About',
-        path: '/about',
-        id : 2
-    },
-    {
         name: 'New',
         path: '/new',
         id : 2
