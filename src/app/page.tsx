@@ -4,6 +4,8 @@ import { prisma } from "@/libs/prisma";
 const loadTasks = async () => {
   return await prisma.task.findMany();
 };
+
+export const dynamic = 'force-dynamic';
 const LandingPage = async () => {
   const tasks = await loadTasks();
   return (
